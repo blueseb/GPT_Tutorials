@@ -1,5 +1,6 @@
 # Tutorial: Integrating GitHub API with GPTs
 This tutorial will let you connect GPTs to your Github account. For sake of semplicity we will only give access to gists to perform CRUD operations, but you can easily extend it to repository actions.
+
 **Warning**: This tutorial will let GPT use your personal gists. If you make the GPT public *anybody will be able to modify and delete your gists* so keep it private!
 
 ## Prerequisites
