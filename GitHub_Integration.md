@@ -30,6 +30,7 @@ This tutorial will let you connect GPTs to your Github account. For sake of semp
 
 ## Step 5: Publish it
 In the upper right corner click `Save`, select `Only me` and click `Confirm`.
+
 **Warning**: If don't select `Only me`, *anybody will be able to modify and delete your gists!*
 
 That's it! You can now test GitHub integration by asking your GPT to read, write and delete gists in your account. new gists will be private by default but you can explicitly ask GPT to make them public.
