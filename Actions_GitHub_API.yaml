@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: GPT Actions for GitHub API
+  version: 1.0.0
+description: API for interacting with GitHub gists, including listing, reading, creating, and updating gists.
+servers:
+  - url: https://api.github.com
+
+paths:
+  /gists:
+    get:
+      summary: List gists
+      description: Retrieve a list of gists available in GitHub.
+      operationId: listGists
+      responses:
+        '200':
+          description: A list of gists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gist'
+    post:
+      summary: Create a new gist
+      description: Create a new gist with provided files and metadata.
+      operationId: createGist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GistCreate'
+      responses:
+        '201':
+          description: The gist has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GistResponse'
+
+  /gists/{gist_id}:
+    get:
+      summary: Read a specific gist
+      description: Get the details of a specific gist by providing its ID.
+      operationId: readGist
+      parameters:
+        - name: gist_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Details of a gist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gist'
+
+    patch:
+      summary: Update an existing gist
+      description: Update the content or metadata of an existing gist by its ID.
+      operationId: updateGist
+      parameters:
+        - name: gist_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GistUpdate'
+      responses:
+        '200':
+          description: The gist has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gist'
+
+    delete:
+      summary: "Delete a gist"
+      description: "Deletes a gist based on the specified gist ID."
+      operationId: "deleteGist"
+      parameters:
+        - name: "gist_id"
+          in: "path"
+          description: "ID of the gist to delete"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "Gist deleted"
+        404:
+          description: "Gist not found"
+
+components:
+  schemas:
+    Gist:
+      type: object
+      properties:
+        url:
+          type: string
+        id:
+          type: string
+        description:
+          type: string
+        public:
+          type: boolean
+
+    GistCreate:
+      type: object
+      properties:
+        description:
+          type: string
+        public:
+          type: boolean
+        files:
+          $ref: '#/components/schemas/Files'
+      required:
+        - files
+
+    GistUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+        public:
+          type: boolean
+        files:
+          $ref: '#/components/schemas/Files'
+      required:
+        - files
+
+    GistResponse:
+      type: object
+      properties:
+        url:
+          type: string
+        id:
+          type: string
+        description:
+          type: string
+        public:
+          type: boolean
+        files:
+          $ref: '#/components/schemas/Files'
+
+    Files:
+      type: object
+      properties:
+        content:
+          type: string
